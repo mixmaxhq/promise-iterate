@@ -5,7 +5,7 @@
   "main": "promise-iterate.js",
   "scripts": {
     "build": "rm -rf dist/node && babel src -d dist/node",
-    "prepublish": "yarn run build",
+    "prepublishOnly": "yarn run build",
     "test": "ava"
   },
   "repository": {
