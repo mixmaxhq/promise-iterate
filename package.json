@@ -2,7 +2,7 @@
   "name": "promise-iterate",
   "version": "0.2.1",
   "description": "Iteration over cursor-like objects with async/await",
-  "main": "promise-iterate.js",
+  "main": "index.js",
   "scripts": {
     "build": "rm -rf dist/node && babel src -d dist/node",
     "prepublishOnly": "yarn run build",
