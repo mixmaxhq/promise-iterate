@@ -57,6 +57,8 @@ $ yarn add promise-iterate
 Changelog
 ---------
 
+* 0.2.2 Fix package.json again so it can be published properly.
+
 * 0.2.1 Fix package.json so it can be published properly.
 
 * 0.2.0 Adds transpilation so it can be used in Node 6 (and prior) environments.
