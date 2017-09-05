@@ -22,7 +22,9 @@
     "promise"
   ],
   "files": [
-    "promise-iterate.js"
+    "index.js",
+    "dist",
+    "src"
   ],
   "author": "Eli Skeggs <me@eliskeggs.com> (https://eliskeggs.com)",
   "license": "MIT",
