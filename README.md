@@ -57,6 +57,8 @@ $ yarn add promise-iterate
 Changelog
 ---------
 
+* 0.2.3 Fix loading on Node >= 7.6.0.
+
 * 0.2.2 Fix package.json again so it can be published properly.
 
 * 0.2.1 Fix package.json so it can be published properly.
