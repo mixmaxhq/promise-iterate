@@ -51,7 +51,7 @@ $ npm install promise-iterate
 or
 
 ```sh
-$ yarn add promise-iterate
+$ npm install promise-iterate
 ```
 
 Changelog
