@@ -1,8 +1,7 @@
-import { describe } from 'ava-spec';
-import promiseIter from '..';
+const promiseIter = require('..');
 
-describe('promiseIterate', (it) => {
-  it('should iterate over a cursor', async (t) => {
+describe('promiseIterate', () => {
+  it('should iterate over a cursor', async () => {
     let value = 0;
     const cursor = {
       next: async () => value > 4 ? null : ++value
@@ -14,47 +13,47 @@ describe('promiseIterate', (it) => {
       await new Promise((resolve) => setTimeout(resolve, 1));
     });
 
-    t.deepEqual(values, [1, 2, 3, 4, 5]);
+    expect(values).toEqual([1, 2, 3, 4, 5]);
   });
 
-  it('should iterate over an empty cursor', async (t) => {
+  it('should iterate over an empty cursor', async () => {
     let calls = 0;
     const cursor = {
-      next: async() => {
+      next: async () => {
         ++calls;
         return null;
       }
     };
 
-    await promiseIter(cursor, async (v) => {
+    await promiseIter(cursor, async () => {
       throw new Error('unexpected invocation');
     });
 
-    t.is(calls, 1);
+    expect(calls).toBe(1);
   });
 
-  it('should pass along errors', async (t) => {
+  it('should pass along errors', async () => {
     const cursor = {
-      next: async() => 'value'
+      next: async () => 'value'
     };
 
     let err;
     try {
-      await promiseIter(cursor, async (v) => {
+      await promiseIter(cursor, async () => {
         throw new Error('yay');
       });
     } catch (e) {
       err = e;
     }
 
-    t.truthy(err instanceof Error);
-    t.is(err.message, 'yay');
+    expect(err instanceof Error).toBeTruthy();
+    expect(err.message).toEqual('yay');
   });
 
-  it('should batch the cursor', async (t) => {
+  it('should batch the cursor', async () => {
     let value = 0;
     const cursor = {
-      next: async() => value > 5 ? null : ++value
+      next: async () => value > 5 ? null : ++value
     };
 
     const values = [];
@@ -62,13 +61,13 @@ describe('promiseIterate', (it) => {
       values.push(v);
     }, {batchSize: 2});
 
-    t.deepEqual(values, [[1, 2], [3, 4], [5, 6]]);
+    expect(values).toEqual([[1, 2], [3, 4], [5, 6]]);
   });
 
-  it('should batch the cursor and handle the end correctly', async (t) => {
+  it('should batch the cursor and handle the end correctly', async () => {
     let value = 0;
     const cursor = {
-      next: async() => value > 4 ? null : ++value
+      next: async () => value > 4 ? null : ++value
     };
 
     const values = [];
@@ -76,16 +75,16 @@ describe('promiseIterate', (it) => {
       values.push(v);
     }, {batchSize: 2});
 
-    t.deepEqual(values, [[1, 2], [3, 4], [5]]);
+    expect(values).toEqual([[1, 2], [3, 4], [5]]);
   });
 });
 
-describe('asyncIterate', (it) => {
-  it('should iterate over a cursor', async (t) => {
+describe('asyncIterate', () => {
+  it('should iterate over a cursor', async () => {
     let value = 0;
     const cursor = {
       next: (done) => {
-        process.nextTick(done, null, value > 4 ? null : ++value)
+        process.nextTick(done, null, value > 4 ? null : ++value);
       }
     };
 
@@ -94,6 +93,6 @@ describe('asyncIterate', (it) => {
       values.push(v);
     });
 
-    t.deepEqual(values, [1, 2, 3, 4, 5]);
+    expect(values).toEqual([1, 2, 3, 4, 5]);
   });
 });
