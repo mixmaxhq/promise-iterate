@@ -1,6 +1,6 @@
 const { promisify } = require('promise-callbacks');
 
-async function promiseIterate(iterable, iteratee, {batchSize} = {}) {
+async function promiseIterate(iterable, iteratee, { batchSize } = {}) {
   for (;;) {
     let value;
     if (typeof batchSize === 'number' && batchSize >= 1) {

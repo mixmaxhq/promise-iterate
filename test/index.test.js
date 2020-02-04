@@ -4,7 +4,7 @@ describe('promiseIterate', () => {
   it('should iterate over a cursor', async () => {
     let value = 0;
     const cursor = {
-      next: async () => value > 4 ? null : ++value
+      next: async () => (value > 4 ? null : ++value),
     };
 
     const values = [];
@@ -19,10 +19,10 @@ describe('promiseIterate', () => {
   it('should iterate over an empty cursor', async () => {
     let calls = 0;
     const cursor = {
-      next: async () => {
+      async next() {
         ++calls;
         return null;
-      }
+      },
     };
 
     await promiseIter(cursor, async () => {
@@ -34,7 +34,7 @@ describe('promiseIterate', () => {
 
   it('should pass along errors', async () => {
     const cursor = {
-      next: async () => 'value'
+      next: async () => 'value',
     };
 
     let err;
@@ -53,27 +53,39 @@ describe('promiseIterate', () => {
   it('should batch the cursor', async () => {
     let value = 0;
     const cursor = {
-      next: async () => value > 5 ? null : ++value
+      next: async () => (value > 5 ? null : ++value),
     };
 
     const values = [];
-    await promiseIter(cursor, async (v) => {
-      values.push(v);
-    }, {batchSize: 2});
+    await promiseIter(
+      cursor,
+      async (v) => {
+        values.push(v);
+      },
+      { batchSize: 2 }
+    );
 
-    expect(values).toEqual([[1, 2], [3, 4], [5, 6]]);
+    expect(values).toEqual([
+      [1, 2],
+      [3, 4],
+      [5, 6],
+    ]);
   });
 
   it('should batch the cursor and handle the end correctly', async () => {
     let value = 0;
     const cursor = {
-      next: async () => value > 4 ? null : ++value
+      next: async () => (value > 4 ? null : ++value),
     };
 
     const values = [];
-    await promiseIter(cursor, async (v) => {
-      values.push(v);
-    }, {batchSize: 2});
+    await promiseIter(
+      cursor,
+      async (v) => {
+        values.push(v);
+      },
+      { batchSize: 2 }
+    );
 
     expect(values).toEqual([[1, 2], [3, 4], [5]]);
   });
@@ -83,9 +95,9 @@ describe('asyncIterate', () => {
   it('should iterate over a cursor', async () => {
     let value = 0;
     const cursor = {
-      next: (done) => {
+      next(done) {
         process.nextTick(done, null, value > 4 ? null : ++value);
-      }
+      },
     };
 
     const values = [];
