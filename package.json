@@ -36,7 +36,7 @@
   "homepage": "https://github.com/mixmaxhq/promise-iterate#readme",
   "dependencies": {
     "promise-callbacks": "^3.0.0",
-    "semver": "^5.4.1"
+    "semver": "^7.2.2"
   },
   "devDependencies": {
     "@mixmaxhq/prettier-config": "^1.0.0",
