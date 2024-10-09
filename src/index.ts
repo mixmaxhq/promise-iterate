@@ -1,21 +1,33 @@
-const { promisify } = require('promise-callbacks');
+import { promisify } from 'promise-callbacks';
 
-async function promiseIterate(iterable, iteratee, { batchSize } = {}) {
+type Iterable = {
+  next: (p?: any) => Promise<any | void>;
+};
+type Iteratee = (p: any) => Promise<any>;
+
+async function promiseIterate(
+  iterable: Iterable,
+  iteratee: Iteratee,
+  { batchSize }: { batchSize?: number } = {}
+): Promise<void> {
   for (;;) {
     let value;
+
     if (typeof batchSize === 'number' && batchSize >= 1) {
       value = new Array(batchSize);
+
       for (let i = 0; i < batchSize; ++i) {
         const next = await iterable.next();
+
         if (!next) {
           // If we haven't received any values from the iterable, then just finish iteration.
           if (i === 0) return;
-
           // If we have received values from the iterable, and we're under the batch size, but we
           // didn't receive a value from the iterable, then truncate the array.
           value.length = i;
           break;
         }
+
         value[i] = next;
       }
     } else {
@@ -23,14 +35,18 @@ async function promiseIterate(iterable, iteratee, { batchSize } = {}) {
       // If we didn't receive a values from the iterable, then just finish iteration.
       if (!value) return;
     }
+
     await iteratee(value);
   }
 }
 
-async function asyncIterate(iterable, iteratee, options = {}) {
-  return promiseIterate(promisify.methods(iterable, ['next']), iteratee, options);
+async function asyncIterate(
+  iterable: Iterable,
+  iteratee: Iteratee,
+  options: { batchSize?: number } = {}
+): Promise<void> {
+  return await promiseIterate(promisify.methods(iterable, ['next']), iteratee, options);
 }
 
 promiseIterate.asyncIterate = asyncIterate;
-
-module.exports = promiseIterate;
+export default promiseIterate;
