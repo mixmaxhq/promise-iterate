@@ -1,13 +1,13 @@
 import { promisify } from 'promise-callbacks';
 
-type Iterable = {
-  next: (p?: any) => Promise<any | void>;
+export type Iterable<T> = {
+  next: (p?: T) => Promise<T | void>;
 };
-type Iteratee = (p: any) => Promise<any>;
+type Iteratee<T> = (p: T) => Promise<T>;
 
 async function promiseIterate(
-  iterable: Iterable,
-  iteratee: Iteratee,
+  iterable: Iterable<any>,
+  iteratee: Iteratee<any>,
   { batchSize }: { batchSize?: number } = {}
 ): Promise<void> {
   for (;;) {
@@ -41,8 +41,8 @@ async function promiseIterate(
 }
 
 async function asyncIterate(
-  iterable: Iterable,
-  iteratee: Iteratee,
+  iterable: Iterable<any>,
+  iteratee: Iteratee<any>,
   options: { batchSize?: number } = {}
 ): Promise<void> {
   return await promiseIterate(promisify.methods(iterable, ['next']), iteratee, options);

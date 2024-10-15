@@ -9,7 +9,7 @@
     "lint": "eslint . && tsc --noEmit",
     "prepublishOnly": "npm run build && if [ \"$CI\" = \"\" ] && [ \"$npm_config_dry_run\" != true ]; then node -p \"JSON.parse(process.env.npm_package_config_manualPublishMessage)\"; exit 1; fi",
     "test": "jest",
-    "watch": "rollup -cw"
+    "watch": "tsc --watch"
   },
   "repository": {
     "type": "git",
