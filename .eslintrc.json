@@ -1,3 +1,7 @@
 {
-  "extends": ["mixmax/node", "mixmax/prettier"]
+  "extends": ["mixmax/node", "mixmax/prettier", "mixmax/typescript"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error"
+  }
 }

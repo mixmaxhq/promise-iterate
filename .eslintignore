@@ -1,2 +1,4 @@
 dist/node/*
 coverage
+/**/*.js
+dist
