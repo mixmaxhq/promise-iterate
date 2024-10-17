@@ -57,6 +57,8 @@ $ npm install promise-iterate
 Changelog
 ---------
 
+* 1.0.0 Adding typescript.
+
 * 0.2.3 Fix loading on Node >= 7.6.0.
 
 * 0.2.2 Fix package.json again so it can be published properly.
